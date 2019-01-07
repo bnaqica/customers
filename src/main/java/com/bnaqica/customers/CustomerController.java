@@ -16,7 +16,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<Customer> getCustomers() {
+    public Iterable<Customer> getCustomers() {
         return customerService.getCustomers();
     }
 }

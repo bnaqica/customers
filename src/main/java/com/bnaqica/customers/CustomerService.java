@@ -15,16 +15,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> getCustomers() {
-        List<Customer> customers = new ArrayList<>();
-        customers.add(Customer.builder()
-                .id(1L)
-                .firstName("Joe")
-                .lastName("Smuck")
-                .gender("Male")
-                .dateOfBirth(LocalDate.parse("2016-06-12"))
-                .build());
-
-        return customers;
+    public Iterable<Customer> getCustomers() {
+        return customerRepository.findAll();
     }
 }

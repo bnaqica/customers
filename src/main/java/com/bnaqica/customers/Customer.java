@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.time.LocalDate;
-import java.util.Date;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -21,11 +21,13 @@ import java.util.Date;
 @ToString
 @EqualsAndHashCode
 @Entity
+@Table
 public class Customer {
     @Id
-    private Long id;
+    private int id;
+    @Column(name="first_name")
     private String firstName;
+    @Column(name="last_name")
     private String lastName;
     private String gender;
-    private LocalDate dateOfBirth;
 }
