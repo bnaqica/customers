@@ -28,6 +28,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	compile group: 'org.projectlombok', name:'lombok', version:"${lombokVersion}"
+	compile('com.h2database:h2:1.4.196')
 	runtimeOnly('mysql:mysql-connector-java')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
