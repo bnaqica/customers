@@ -14,8 +14,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static com.bnaqica.customers.TestUtils.getResourceAsString;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,11 +43,43 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void getCustomers() throws Exception {
+    public void testGetCustomers() throws Exception {
         mockMvc.perform(get("/customers")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)));
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$.[0].id", is(1)))
+                .andExpect(jsonPath("$.[0].firstName", is("John")))
+                .andExpect(jsonPath("$.[0].lastName", is("Doe")))
+                .andExpect(jsonPath("$.[0].gender", is("male")))
+                .andExpect(jsonPath("$.[1].id", is(2)))
+                .andExpect(jsonPath("$.[2].id", is(3)));
+    }
+
+    @Test
+    public void testGetCustomer() throws Exception {
+        mockMvc.perform(get("/customers/2")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(2)))
+                .andExpect(jsonPath("$.firstName", is("Max")))
+                .andExpect(jsonPath("$.lastName", is("Zion")))
+                .andExpect(jsonPath("$.gender", is("male")));
+    }
+
+    @Test
+    public void testCreateCustomer() throws Exception {
+        String customerCreateJson = getResourceAsString("createCustomer.json");
+        mockMvc.perform(post("/customers")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(customerCreateJson))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", is(4)))
+                .andExpect(jsonPath("$.firstName", is("Tom")))
+                .andExpect(jsonPath("$.lastName", is("Chung")))
+                .andExpect(jsonPath("$.gender", is("male")));
     }
 }

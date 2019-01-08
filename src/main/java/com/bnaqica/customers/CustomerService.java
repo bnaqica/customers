@@ -2,9 +2,7 @@ package com.bnaqica.customers;
 
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -17,6 +15,10 @@ public class CustomerService {
 
     public Iterable<Customer> getCustomers() {
         return customerRepository.findAll();
+    }
+
+    public Optional<Customer> getCustomer(Long id) {
+        return customerRepository.findById(id);
     }
 
     public Customer createCustomer(Customer customer) {
