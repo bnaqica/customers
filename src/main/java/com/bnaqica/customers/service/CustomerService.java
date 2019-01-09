@@ -1,5 +1,7 @@
-package com.bnaqica.customers;
+package com.bnaqica.customers.service;
 
+import com.bnaqica.customers.repository.CustomerRepository;
+import com.bnaqica.customers.model.Customer;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package com.bnaqica.customers;
+package com.bnaqica.customers.model;
 
 import java.beans.ConstructorProperties;
 import java.io.Serializable;

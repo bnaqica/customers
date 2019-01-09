@@ -1,4 +1,4 @@
-package com.bnaqica.customers;
+package com.bnaqica.customers.controller;
 
 import org.junit.Before;
 import org.junit.Test;
