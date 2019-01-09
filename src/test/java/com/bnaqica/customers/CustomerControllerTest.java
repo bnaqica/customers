@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static com.bnaqica.customers.TestUtils.getResourceAsString;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -67,6 +68,15 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.firstName", is("Max")))
                 .andExpect(jsonPath("$.lastName", is("Zion")))
                 .andExpect(jsonPath("$.gender", is("male")));
+    }
+
+    @Test
+    public void testGetCustomer_NonExistingCustomer() throws Exception {
+        mockMvc.perform(get("/customers/10")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", containsString("Illegal Argument Exception: Customer does not exist")));
     }
 
     @Test

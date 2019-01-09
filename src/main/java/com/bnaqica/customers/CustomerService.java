@@ -2,8 +2,6 @@ package com.bnaqica.customers;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class CustomerService {
 
@@ -17,8 +15,8 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getCustomer(Long id) {
-        return customerRepository.findById(id);
+    public Customer getCustomer(Long id) {
+        return customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
     }
 
     public Customer createCustomer(Customer customer) {
