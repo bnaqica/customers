@@ -3,5 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/customers_db
     username: bnaqica
     password: password123
+  jpa:
+    show-sql: true
 server:
   port: 2001

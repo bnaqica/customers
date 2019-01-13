@@ -18,6 +18,7 @@ import static com.bnaqica.customers.TestUtils.getResourceAsString;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -54,6 +55,10 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.[0].firstName", is("John")))
                 .andExpect(jsonPath("$.[0].lastName", is("Doe")))
                 .andExpect(jsonPath("$.[0].gender", is("male")))
+                .andExpect(jsonPath("$.[0].phoneNumbers", hasSize(2)))
+                .andExpect(jsonPath("$.[0].phoneNumbers.[0].id", notNullValue()))
+                .andExpect(jsonPath("$.[0].phoneNumbers.[0].number", notNullValue()))
+                .andExpect(jsonPath("$.[0].phoneNumbers.[0].type", notNullValue()))
                 .andExpect(jsonPath("$.[1].id", is(2)))
                 .andExpect(jsonPath("$.[2].id", is(3)));
     }
@@ -67,7 +72,11 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.id", is(2)))
                 .andExpect(jsonPath("$.firstName", is("Max")))
                 .andExpect(jsonPath("$.lastName", is("Zion")))
-                .andExpect(jsonPath("$.gender", is("male")));
+                .andExpect(jsonPath("$.gender", is("male")))
+                .andExpect(jsonPath("$.phoneNumbers", hasSize(1)))
+                .andExpect(jsonPath("$.phoneNumbers.[0].id", notNullValue()))
+                .andExpect(jsonPath("$.phoneNumbers.[0].number", notNullValue()))
+                .andExpect(jsonPath("$.phoneNumbers.[0].type", notNullValue()));
     }
 
     @Test
@@ -90,6 +99,10 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.id", is(4)))
                 .andExpect(jsonPath("$.firstName", is("Tom")))
                 .andExpect(jsonPath("$.lastName", is("Chung")))
-                .andExpect(jsonPath("$.gender", is("male")));
+                .andExpect(jsonPath("$.gender", is("male")))
+                .andExpect(jsonPath("$.phoneNumbers", hasSize(3)))
+                .andExpect(jsonPath("$.phoneNumbers.[0].id", notNullValue()))
+                .andExpect(jsonPath("$.phoneNumbers.[0].number", notNullValue()))
+                .andExpect(jsonPath("$.phoneNumbers.[0].type", notNullValue()));
     }
 }

@@ -1,5 +1,19 @@
 {
-  "firstName" : "Tom",
-  "lastName" : "Chung",
-  "gender" : "male"
+  "firstName": "Tom",
+  "lastName": "Chung",
+  "gender": "male",
+  "phoneNumbers": [
+    {
+      "number": "679-808-5674",
+      "type": "Home"
+    },
+    {
+      "number": "679-808-5677",
+      "type": "Cell"
+    },
+    {
+      "number": "679-808-5679",
+      "type": "Work"
+    }
+  ]
 }
