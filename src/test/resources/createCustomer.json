@@ -2,6 +2,7 @@
   "firstName": "Tom",
   "lastName": "Chung",
   "gender": "male",
+  "dateOfBirth": "07/20/1985",
   "phoneNumbers": [
     {
       "number": "679-808-5674",

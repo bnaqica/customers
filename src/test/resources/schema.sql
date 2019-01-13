@@ -2,7 +2,8 @@ CREATE TABLE if NOT EXISTS customer (
     id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(20),
     last_name VARCHAR(20),
-    gender VARCHAR(10)
+    gender VARCHAR(10),
+    date_of_birth DATE
 );
 
 CREATE TABLE if NOT EXISTS phone_number (
