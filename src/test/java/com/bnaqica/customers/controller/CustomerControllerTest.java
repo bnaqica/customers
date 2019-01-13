@@ -56,8 +56,11 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.[0].lastName", is("Doe")))
                 .andExpect(jsonPath("$.[0].gender", is("male")))
                 .andExpect(jsonPath("$.[0].dateOfBirth", is("08/26/1985")))
+                .andExpect(jsonPath("$.[0].driversLicense", notNullValue()))
+                .andExpect(jsonPath("$.[0].driversLicense.state", is("Colorado")))
+                .andExpect(jsonPath("$.[0].driversLicense.licenseNumber", is("987-652-332")))
+                .andExpect(jsonPath("$.[0].driversLicense.expirationDate", is("09/30/2023")))
                 .andExpect(jsonPath("$.[0].phoneNumbers", hasSize(2)))
-                .andExpect(jsonPath("$.[0].phoneNumbers.[0].id", notNullValue()))
                 .andExpect(jsonPath("$.[0].phoneNumbers.[0].number", notNullValue()))
                 .andExpect(jsonPath("$.[0].phoneNumbers.[0].type", notNullValue()))
                 .andExpect(jsonPath("$.[1].id", is(2)))
@@ -75,8 +78,11 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.lastName", is("Zion")))
                 .andExpect(jsonPath("$.gender", is("male")))
                 .andExpect(jsonPath("$.dateOfBirth", is("12/15/1972")))
+                .andExpect(jsonPath("$.driversLicense", notNullValue()))
+                .andExpect(jsonPath("$.driversLicense.state", is("Kansas")))
+                .andExpect(jsonPath("$.driversLicense.licenseNumber", is("871-22-345")))
+                .andExpect(jsonPath("$.driversLicense.expirationDate", is("08/31/2028")))
                 .andExpect(jsonPath("$.phoneNumbers", hasSize(1)))
-                .andExpect(jsonPath("$.phoneNumbers.[0].id", notNullValue()))
                 .andExpect(jsonPath("$.phoneNumbers.[0].number", notNullValue()))
                 .andExpect(jsonPath("$.phoneNumbers.[0].type", notNullValue()));
     }
@@ -103,8 +109,11 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.lastName", is("Chung")))
                 .andExpect(jsonPath("$.gender", is("male")))
                 .andExpect(jsonPath("$.dateOfBirth", is("07/20/1985")))
+                .andExpect(jsonPath("$.driversLicense", notNullValue()))
+                .andExpect(jsonPath("$.driversLicense.state", is("New Mexico")))
+                .andExpect(jsonPath("$.driversLicense.licenseNumber", is("332-77-900")))
+                .andExpect(jsonPath("$.driversLicense.expirationDate", is("07/31/2024")))
                 .andExpect(jsonPath("$.phoneNumbers", hasSize(3)))
-                .andExpect(jsonPath("$.phoneNumbers.[0].id", notNullValue()))
                 .andExpect(jsonPath("$.phoneNumbers.[0].number", notNullValue()))
                 .andExpect(jsonPath("$.phoneNumbers.[0].type", notNullValue()));
     }

@@ -30,6 +30,7 @@ public class CustomerService {
 
     public Customer createCustomer(Customer customer) {
         customer.getPhoneNumbers().forEach(phoneNumber -> customer.addPhoneNumber(phoneNumber));
+        customer.addDriversLicense(customer.getDriversLicense());
         return customerRepository.save(customer);
     }
 }

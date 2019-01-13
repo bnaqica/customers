@@ -14,3 +14,13 @@ CREATE TABLE if NOT EXISTS phone_number (
     FOREIGN KEY (customer_id)
     REFERENCES customer (id)
 );
+
+CREATE TABLE if NOT EXISTS drivers_license (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    state VARCHAR(50),
+    license_number VARCHAR(50),
+    expiration_date DATE,
+    FOREIGN KEY (customer_id)
+    REFERENCES customer (id)
+);

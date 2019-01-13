@@ -3,6 +3,11 @@
   "lastName": "Chung",
   "gender": "male",
   "dateOfBirth": "07/20/1985",
+  "driversLicense": {
+    "state": "New Mexico",
+    "licenseNumber": "332-77-900",
+    "expirationDate": "07/31/2024"
+  },
   "phoneNumbers": [
     {
       "number": "679-808-5674",

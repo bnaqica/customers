@@ -8,3 +8,7 @@ insert into phone_number (id, customer_id, phone_number, phone_type) values (3, 
 insert into phone_number (id, customer_id, phone_number, phone_type) values (4, 3, '910-123-0001', 'Cell');
 insert into phone_number (id, customer_id, phone_number, phone_type) values (5, 3, '910-123-0002', 'Home');
 insert into phone_number (id, customer_id, phone_number, phone_type) values (6, 3, '910-123-0003', 'Work');
+
+insert into drivers_license (id, customer_id, state, license_number, expiration_date) values (1, 1, 'Colorado', '987-652-332', '2023-09-30');
+insert into drivers_license (id, customer_id, state, license_number, expiration_date) values (2, 2, 'Kansas', '871-22-345', '2028-08-31');
+insert into drivers_license (id, customer_id, state, license_number, expiration_date) values (3, 3, 'Utah', '263-54-9729', '2025-12-31');
