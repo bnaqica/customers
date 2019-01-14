@@ -7,3 +7,8 @@ spring:
     show-sql: true
 server:
   port: 2001
+customers:
+  baseUrl: http://dev.fakeonlinestore.com/
+  customerUrl: customer/
+  version: v3/
+  timeout: 10

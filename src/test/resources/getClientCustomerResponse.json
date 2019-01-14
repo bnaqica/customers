@@ -1,0 +1,22 @@
+{
+  "id" : 2095,
+  "firstName": "Jane",
+  "lastName": "Washington",
+  "gender": "female",
+  "dateOfBirth": "03/20/1981",
+  "driversLicense": {
+    "state": "California",
+    "licenseNumber": "9974-125-90087",
+    "expirationDate": "01/31/2029"
+  },
+  "phoneNumbers": [
+    {
+      "number": "405-976-7654",
+      "type": "Home"
+    },
+    {
+      "number": "405-976-7658",
+      "type": "Cell"
+    }
+  ]
+}

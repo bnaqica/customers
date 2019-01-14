@@ -1,17 +1,24 @@
 package com.bnaqica.customers.controller;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import static com.bnaqica.customers.TestUtils.getResourceAsString;
@@ -19,11 +26,15 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
@@ -34,14 +45,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:customerDelete.sql"),
 })
 public class CustomerControllerTest {
-    private MockMvc mockMvc;
+    @Value("${customers.baseUrl}")
+    private String baseUrl;
+
+    @Value("${customers.customerUrl}")
+    private String customerUrl;
+
+    @Value("${customers.version}")
+    private String version;
 
     @Autowired
     private WebApplicationContext context;
 
+    @Autowired
+    @Qualifier("customersRestTemplate")
+    private RestTemplate restTemplate;
+
+    private MockRestServiceServer mockRestServiceServer;
+
+    private ClientHttpRequestFactory clientHttpRequestFactory;
+
+    private MockMvc mockMvc;
+
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        clientHttpRequestFactory = restTemplate.getRequestFactory();
+        mockRestServiceServer = MockRestServiceServer.createServer(restTemplate);
+    }
+
+    @After
+    public void tearDown() {
+        restTemplate.setRequestFactory(clientHttpRequestFactory);
     }
 
     @Test
@@ -68,8 +103,8 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void testGetCustomer() throws Exception {
-        mockMvc.perform(get("/customers/2")
+    public void testGetCustomer_DatabaseCustomer() throws Exception {
+        mockMvc.perform(get("/customers/2?isClientCustomer=false")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -88,8 +123,33 @@ public class CustomerControllerTest {
     }
 
     @Test
+    public void testGetCustomer_ClientCustomer() throws Exception {
+        String mockedRespose = getResourceAsString("getClientCustomerResponse.json");
+        mockRestServiceServer.expect(requestTo(buildCustomerClientUrl(2095L)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withSuccess(mockedRespose, MediaType.APPLICATION_JSON));
+
+        mockMvc.perform(get("/customers/2095")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(2095)))
+                .andExpect(jsonPath("$.firstName", is("Jane")))
+                .andExpect(jsonPath("$.lastName", is("Washington")))
+                .andExpect(jsonPath("$.gender", is("female")))
+                .andExpect(jsonPath("$.dateOfBirth", is("03/20/1981")))
+                .andExpect(jsonPath("$.driversLicense", notNullValue()))
+                .andExpect(jsonPath("$.driversLicense.state", is("California")))
+                .andExpect(jsonPath("$.driversLicense.licenseNumber", is("9974-125-90087")))
+                .andExpect(jsonPath("$.driversLicense.expirationDate", is("01/31/2029")))
+                .andExpect(jsonPath("$.phoneNumbers", hasSize(2)))
+                .andExpect(jsonPath("$.phoneNumbers.[0].number", notNullValue()))
+                .andExpect(jsonPath("$.phoneNumbers.[0].type", notNullValue()));
+    }
+
+    @Test
     public void testGetCustomer_NonExistingCustomer() throws Exception {
-        mockMvc.perform(get("/customers/10")
+        mockMvc.perform(get("/customers/10?isClientCustomer=false")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
@@ -116,5 +176,9 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.phoneNumbers", hasSize(3)))
                 .andExpect(jsonPath("$.phoneNumbers.[0].number", notNullValue()))
                 .andExpect(jsonPath("$.phoneNumbers.[0].type", notNullValue()));
+    }
+
+    private String buildCustomerClientUrl(Long id) {
+        return fromHttpUrl(String.format("%s%s%s%s", baseUrl, customerUrl, version, id.toString())).build().toString();
     }
 }
