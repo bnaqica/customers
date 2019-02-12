@@ -124,10 +124,10 @@ public class CustomerControllerTest {
 
     @Test
     public void testGetCustomer_ClientCustomer() throws Exception {
-        String mockedRespose = getResourceAsString("getClientCustomerResponse.json");
+        String mockedResponse = getResourceAsString("getClientCustomerResponse.json");
         mockRestServiceServer.expect(requestTo(buildCustomerClientUrl(2095L)))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess(mockedRespose, MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(mockedResponse, MediaType.APPLICATION_JSON));
 
         mockMvc.perform(get("/customers/2095")
                 .accept(MediaType.APPLICATION_JSON_UTF8))

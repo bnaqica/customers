@@ -1,0 +1,16 @@
+spring:
+  profiles: mock
+  datasource:
+    url: jdbc:h2:mem:testdb;Mode=MySql;DB_CLOSE_ON_EXIT=FALSE
+    platform: h2
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+server:
+  port: 2001
+customers:
+  baseUrl: http://localhost:8001/
+  customerUrl: customer/
+  version: v3/
+  timeout: 10

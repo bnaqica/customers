@@ -34,3 +34,14 @@ dependencies {
 	runtimeOnly('mysql:mysql-connector-java')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
+
+task bootRunMock(type: org.springframework.boot.gradle.tasks.run.BootRun) {
+	group = 'Application'
+
+	doFirst() {
+		main = bootJar.mainClassName
+		classpath = sourceSets.main.runtimeClasspath
+		systemProperty 'spring.profiles.active', 'mock'
+	}
+}
+
